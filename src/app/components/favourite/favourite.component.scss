@@ -1,0 +1,66 @@
+$page-margin: 150px;
+
+
+.favourite-result-paragraph{
+    color:#FFA310;
+    font-family: HelveticaNeue !important;
+    margin-left:$page-margin;
+    font-size:2em;
+}
+
+.favourite-movies-list{
+    margin-left:$page-margin;
+    margin-right:$page-margin;
+    display:flex;
+    flex-direction: column;
+    font-family: HelveticaNeue !important;
+    .favourite-movie{
+        display: flex;
+        align-items: center;
+    }
+    .favourite-movie > *{
+        margin-right: 30px;
+        
+    }
+    .heart-svg{
+        width: 39px;
+        height: 33px;
+        cursor:pointer;
+        -moz-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    .heart-svg:hover{
+        -moz-transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1); 
+    }
+    .poster-img{
+        height: 150px;
+    }
+    .description-container{
+        display:flex;
+        justify-content: space-around;
+        flex-direction: column;
+        height: 150px;
+    }
+    .top-description-container{
+        display:flex;
+        color:white;
+    }
+    .type-label-span{
+        color:#FFA310;
+    }
+    .type-value-span{
+        color:white;
+        text-transform: capitalize;
+    }
+    .title-span{
+        font-size:1.5em;
+    }
+    .year-span{
+        margin-left:25px;
+        font-size:1.5em;
+        color: #707070;
+    }
+}

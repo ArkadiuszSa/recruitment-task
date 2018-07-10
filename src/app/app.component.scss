@@ -1,0 +1,96 @@
+$primary-background-color: #121212;
+$page-margin: 150px;
+
+::ng-deep body{
+    margin:0px !important;
+    background: $primary-background-color;
+}
+
+.page-wrapper{
+    min-height:100vh;
+}
+
+.toolbar{
+    margin-left:$page-margin;
+    margin-right:$page-margin;
+
+    display:flex;
+    background: $primary-background-color;
+    .heart-svg{
+        width: 39px;
+        height: 33px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        cursor:pointer;
+        //margin-left: 150px;
+        -moz-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+    .heart-svg:hover{
+        -moz-transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);    
+    }
+    .heart-svg:focus{
+        outline:0;
+    }
+    .logo-png{
+        height: 33px;
+        margin: auto;
+    }
+    .search-input{
+        height: 33px;
+        width: 252px;
+        margin-top: auto;
+        margin-bottom: auto;
+        font-size:16px;
+        font-family: HelveticaNeue !important;
+        background:#242424;
+        border-color:#707070;
+        border-style: solid;
+        border-width: 0.5px;
+        color:white;
+        padding-left:16px;
+    }
+    .search-input:focus{
+        outline-color: #FFA310;
+        outline-width: 1px;
+    }
+
+    .search-button{
+        height:36px;
+        width:36px;
+        background-color:$primary-background-color;
+        border-color:#707070;
+        border-style: solid;
+        border-width: 0.5px;
+        border-left-style: none;
+        margin-top:13.5px;
+        cursor:pointer;
+        .search-icon{
+            height:20px;
+            -moz-transition: all 0.1s;
+            -webkit-transition: all 0.1s;
+            transition: all 0.1s;
+        }
+        
+    }
+    .search-button:focus{
+        outline:0;
+    }
+    .search-button:hover .search-icon{
+        -moz-transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+hr{
+    margin:0;
+}
+
+.footer-img{
+    max-width: 100%;
+    height: auto;
+
+}

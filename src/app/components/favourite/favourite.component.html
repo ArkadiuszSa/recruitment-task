@@ -1,0 +1,27 @@
+<p class='favourite-result-paragraph'>Favourite movies ({{numberOfFavouriteMovies}})</p>
+
+<div class='favourite-movies-list'>
+    <div *ngFor='let favouriteMovie of favouriteMovies; let i = index'>
+        <div class=favourite-movie>
+            <img (click)='removeMovieFromFavourites(favouriteMovie._id)' class='heart-svg' src="./../assets/img/gold_heart.svg">
+            <img class='poster-img' src='{{favouriteMovie.posterUrl}}'>
+            <div class='description-container'>
+                <div class='top-description-container'>
+                    <span class='title-span'>{{favouriteMovie.title}}</span>
+                    <span class='year-span'>({{favouriteMovie.year}})</span>
+                </div>
+                <p>
+                    <span class='type-label-span'>Type: </span> 
+                    <span class='type-value-span'>{{favouriteMovie.type}}</span>
+                </p>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+
+  <app-my-paginator
+  [numberOfElements]='numberOfFavouriteMovies'
+  (pageChange)='paginationReload($event)'
+  ></app-my-paginator>

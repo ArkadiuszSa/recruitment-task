@@ -1,10 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ContentChild  } from '@angular/core';
+import { Router } from '@angular/router';
+import {HomeComponent} from './components/home/home.component'
+import {FavouriteComponent} from './components/favourite/favourite.component'
+import { GlobalService } from './core/services/global.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss'],
+  providers: [ HomeComponent, FavouriteComponent ]
+
 })
 export class AppComponent {
-  title = 'app';
+  @ViewChild(HomeComponent) private homeComponent: HomeComponent;
+  @ContentChild(FavouriteComponent) private favouriteComponent: FavouriteComponent;
+
+  public redirectCondition:boolean;
+  public searchedPhrase;
+  constructor(
+    private router: Router,
+    private globalService: GlobalService
+    
+  ){
+  }
+
+  ngOnInit() {
+    let lastSearchedPhrase=this.globalService.getLastSearchedPhrase();
+    if(!lastSearchedPhrase){
+      this.searchedPhrase='star';
+      this.globalService.setLastSearchedPhrase('star')
+    }else{
+      this.searchedPhrase=this.globalService.getLastSearchedPhrase();
+    }
+    // this.homeComponent.searchMovies(this.searchedPhrase)
+
+    
+    if(this.router.url==='/'){
+      //this.homeComponent.searchMovies(this.searchedPhrase)
+    }else{
+      
+    }
+
+
+    this.router.events.subscribe((val) =>{
+      if(this.router.url==='/'){
+        this.redirectCondition=true;
+       
+      }else{
+        this.redirectCondition=false;
+      }
+    } )
+  }
+
+  runSearch(){
+    this.globalService.newEvent(this.searchedPhrase);
+  }
 }

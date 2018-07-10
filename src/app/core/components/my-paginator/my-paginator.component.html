@@ -1,0 +1,23 @@
+<div class='paginator-container'>
+  <button (click)='firstClick()' class='paginator-button text-button'>First</button>
+  <button (click)='prevClick()' class='paginator-button text-button'>Prev</button>
+  
+  <span *ngIf='(pageNumber-buttonsNumber>=2)' class='suspension-points'>...</span>
+
+  <ng-container *ngFor='let button of buttonsArr; let i = index'>
+    <button *ngIf='(pageNumber-buttonsNumber+i)>0' (click)=numberClick(pageNumber-buttonsNumber+i)  class='paginator-button number-button'>{{pageNumber-buttonsNumber+i}}</button>
+  </ng-container>
+  
+  <button class='paginator-button paginator-button-selected number-button'>{{pageNumber}}</button>
+ 
+  <ng-container *ngFor='let button of buttonsArr; let i = index'>
+    <button *ngIf='(pageNumber+i+1) <= maxPage' (click)=numberClick(pageNumber+1+i)  class='paginator-button number-button'>{{pageNumber+1+i}}</button>
+  </ng-container>
+
+  <span *ngIf='(pageNumber+buttonsNumber<maxPage)' class='suspension-points'>...</span>
+
+  <button (click)='nextClick()' class='paginator-button text-button'>Next</button>
+  <button (click)='lastClick()' class='paginator-button text-button'>Last</button>
+</div>
+
+<p class='info-paragraph'>{{infoFrom}}-{{infoTo}} of {{numberOfElements}}</p>

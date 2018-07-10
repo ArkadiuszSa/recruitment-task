@@ -1,0 +1,19 @@
+<p *ngIf='searchSucces' class='search-result-paragraph'>Search result for "<span>{{searchedPhrase}}</span>"</p>
+<p *ngIf='!searchSucces' class='search-result-paragraph'>No result for"<span>{{searchedPhrase}}</span>" try different keywords.</p>
+
+<div class='movies-container'>
+
+    <div *ngFor='let movie of movies; let i = index' class='movie-container item'>
+      <img class='poster-img'   src='{{movie.posterUrl}}'>
+      <img (click)='addMovieToFavourite(movie)' *ngIf='!movie.isFavourite'  class='poster-heart-svg' src="./../assets/img/white_heart.svg">
+      <img (click)='removeMovieFromFavourites(movie)' *ngIf='movie.isFavourite'  class='poster-heart-svg' src="./../assets/img/gold_heart.svg">
+      <div class='movie-name'>{{movie.title}}</div>
+    </div>
+  </div>
+
+  <app-my-paginator
+  [numberOfElements]="numberOfElements"
+  (pageChange)="paginationReload($event)"
+
+  ></app-my-paginator>
+
