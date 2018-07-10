@@ -11,7 +11,7 @@ interface IMovieData{
 
 @Injectable()
 export class HomeService {
-  private url:string='http://www.omdbapi.com/?apikey=34286e10';
+  private url:string='https://www.omdbapi.com/?apikey=34286e10';
   constructor(
     private http: HttpClient,
     private globalServis: GlobalService
