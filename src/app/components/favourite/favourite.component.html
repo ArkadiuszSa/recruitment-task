@@ -1,10 +1,14 @@
-<p class='favourite-result-paragraph'>Favourite movies ({{numberOfFavouriteMovies}})</p>
 
+<div class='favourite-page-wrapper'>
+    <p *ngIf='numberOfFavouriteMovies&& searchedPhrase===""' class='favourite-result-paragraph'>Favourite movies ({{numberOfFavouriteMovies}})</p>
+    <p *ngIf='!numberOfFavouriteMovies&& searchedPhrase!==""' class='favourite-result-paragraph'>There is not favourite movies for phrase "{{searchedPhrase}}". Try different keywords</p>
+    <p *ngIf='!numberOfFavouriteMovies&& searchedPhrase===""' class='favourite-result-paragraph'>You don't have favourites movies</p>
+    <p *ngIf='numberOfFavouriteMovies && searchedPhrase!==""' class='favourite-result-paragraph'>Favourite movies for phrase "{{searchedPhrase}}" ({{numberOfFavouriteMovies}})</p>
 <div class='favourite-movies-list'>
     <div *ngFor='let favouriteMovie of favouriteMovies; let i = index'>
         <div class=favourite-movie>
             <img (click)='removeMovieFromFavourites(favouriteMovie._id)' class='heart-svg' src="./../assets/img/gold_heart.svg">
-            <img class='poster-img' src='{{favouriteMovie.posterUrl}}'>
+            <img *ngIf='favouriteMovie.posterUrl!=="N/A"' class='poster-img' src='{{favouriteMovie.posterUrl}}'>
             <div class='description-container'>
                 <div class='top-description-container'>
                     <span class='title-span'>{{favouriteMovie.title}}</span>
@@ -19,9 +23,11 @@
         <hr>
     </div>
 </div>
-
-
-  <app-my-paginator
-  [numberOfElements]='numberOfFavouriteMovies'
-  (pageChange)='paginationReload($event)'
-  ></app-my-paginator>
+    <div class='paginator-wrapper'>
+        <app-my-paginator
+            [numberOfElements]='numberOfFavouriteMovies'
+            [pageReset]="paginatorReset"
+            (pageChange)='paginationReload($event)'
+        ></app-my-paginator>
+    </div>
+</div>

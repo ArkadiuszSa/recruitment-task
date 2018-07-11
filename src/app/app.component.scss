@@ -8,6 +8,7 @@ $page-margin: 150px;
 
 .page-wrapper{
     min-height:100vh;
+    min-width:360px;
 }
 
 .toolbar{
@@ -38,10 +39,11 @@ $page-margin: 150px;
     .logo-png{
         height: 33px;
         margin: auto;
+        padding-left: 267px;
     }
     .search-input{
         height: 33px;
-        width: 252px;
+        width: 198px;
         margin-top: auto;
         margin-bottom: auto;
         font-size:16px;
@@ -94,3 +96,37 @@ hr{
     height: auto;
 
 }
+
+@media only screen and (max-width: 1430px) {
+    .toolbar{
+        margin-left:60px !important;
+        margin-right:60px !important;
+    }
+ 
+ }
+
+ @media only screen and (max-width: 950px) {
+    .toolbar{
+        display:flex;
+        flex-wrap: wrap;
+        .logo-png{
+            padding-left:0 !important;
+            padding-right:33px !important;
+            margin-right: auto !important;
+        }
+        .search-input{
+            width:calc( 100% - 53px ) ;
+        }
+        .search-button{
+            margin-top:6.75px;
+            margin-bottom:6.75px;
+        }
+    }
+ 
+ }
+ @media only screen and (max-width: 640px) {
+    .toolbar{
+        margin:10px !important;
+    }
+ 
+ }

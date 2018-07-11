@@ -28,8 +28,8 @@ export class AppComponent {
   ngOnInit() {
     let lastSearchedPhrase=this.globalService.getLastSearchedPhrase();
     if(!lastSearchedPhrase){
-      this.searchedPhrase='star';
-      this.globalService.setLastSearchedPhrase('star')
+      this.searchedPhrase='interview';
+      this.globalService.setLastSearchedPhrase('interview');
     }else{
       this.searchedPhrase=this.globalService.getLastSearchedPhrase();
     }

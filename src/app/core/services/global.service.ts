@@ -51,10 +51,51 @@ export class GlobalService {
   }
 
 
+  ///
 
+  addMovieToFavourites(movie){
+    console.log(movie)
+    let favoriteMoviesJson=localStorage.getItem('favoriteMovies');
+    let favoriteMovies=JSON.parse(favoriteMoviesJson)
+    console.log('jestem w dodawaniu')
+    if(!favoriteMovies){
+      localStorage.setItem('favoriteMovies', JSON.stringify([movie]))
+    }else{
+      if(favoriteMovies.indexOf(movie)===-1){
+        favoriteMovies.push(movie)
+        localStorage.setItem('favoriteMovies', JSON.stringify(favoriteMovies))
+      }
+    }
+  }
 
+  removeMovieFromFavourites(movieId){
+    let favouriteMovies= this.getFavouriteMovies()
+    let favouriteMoviesId= this.getFavouriteMoviesId2();
+    let index=favouriteMoviesId.indexOf(movieId);
+    if (index > -1) {
+      favouriteMovies.splice(index, 1);
+      localStorage.setItem('favoriteMovies', JSON.stringify(favouriteMovies))
+    }
+  }
 
+  getFavouriteMovies(){
+    let favouriteMoviesJson=localStorage.getItem('favoriteMovies');
+    return JSON.parse(favouriteMoviesJson)
+  }
 
-  //
+  getFavouriteMoviesId2(){
+    let favouriteMoviesJson=localStorage.getItem('favoriteMovies');
+    let favouriteMovies= JSON.parse(favouriteMoviesJson)
+    let favouriteMoviesId=[];
+    if(!favouriteMovies){
+      return [];
+    }
+    else{
+      for( let favouriteMovie of favouriteMovies){
+        favouriteMoviesId.push(favouriteMovie._id)
+      }
+      return favouriteMoviesId
+    }
+  }
 
 }

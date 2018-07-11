@@ -11,8 +11,12 @@ export class FavouriteService {
     private globalService: GlobalService
   ) { }
 
-  getFavouriteMovies(pageNumber){
+  getFavouriteMovies2(pageNumber,searchedPhrase){
     let allFavouriteMoviesId=this.globalService.getFavouriteMoviesId();
+
+
+
+
     let from=(pageNumber-1)*10;
     let to;
     if(pageNumber*10>allFavouriteMoviesId.length){
@@ -43,4 +47,42 @@ export class FavouriteService {
     }
     return movie;
   }
+
+  getFavouriteMovies(pageNumber, searchedPhrase){
+    let allFavouriteMovies=this.globalService.getFavouriteMovies();
+    let favouriteMovies=[];
+    let numberOfMovies;
+    if(searchedPhrase!==''){
+      searchedPhrase=searchedPhrase.toUpperCase();
+      // for(let movie of allFavouriteMovies){
+      //   let title=movie.title.toUpperCase();
+      //   if(title.includes(searchedPhrase){
+      //     favouriteMovies.push(movie)
+      //   }
+      //   console.log(movie)
+      //   console.log(title.includes(searchedPhrase))
+       
+      // }
+      
+      allFavouriteMovies=allFavouriteMovies.filter((movie)=>{
+        let title=movie.title.toUpperCase();
+        return title.includes(searchedPhrase)
+      })
+      console.log(allFavouriteMovies)
+    }
+
+    let from=(pageNumber-1)*10;
+    let to;
+    if(pageNumber*10>allFavouriteMovies.length){
+      to=(pageNumber-1)*10+allFavouriteMovies.length%10;
+    }else{
+      to=pageNumber*10;
+    }
+    numberOfMovies=allFavouriteMovies.length
+    favouriteMovies=allFavouriteMovies.slice(from, to);
+    console.log(favouriteMovies)
+    return {'movies':favouriteMovies,'numberOfMovies':numberOfMovies};
+  }
+
+
 }

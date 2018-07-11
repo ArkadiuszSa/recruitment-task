@@ -14,7 +14,7 @@ export class HomeService {
   private url:string='https://www.omdbapi.com/?apikey=34286e10';
   constructor(
     private http: HttpClient,
-    private globalServis: GlobalService
+    private globalService: GlobalService
   ){   
     
   }
@@ -31,9 +31,24 @@ export class HomeService {
      )
   }
 
+  addMovieToFavourites(movieId){
+    return this.http.get<any>(this.url + '&i=' + movieId).pipe(
+      map(movieData=>{
+        let favouriteMovie= {
+          _id:movieData.imdbID,
+          posterUrl:movieData.Poster,
+          title: movieData.Title,
+          type: movieData.Type,
+          year: movieData.Year
+        }
+        this.globalService.addMovieToFavourites(favouriteMovie);
+      })
+    )
+  }
+
   private transformToMovie(moviesData){
     let movies=[];
-    let favouriteMoviesId=this.globalServis.getFavouriteMoviesId();
+    let favouriteMoviesId=this.globalService.getFavouriteMoviesId2();
     for(let movieData of moviesData){
       let isFavourite=false;
       if(favouriteMoviesId!==null){

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { PaginatorComponent } from '../../core/components/paginator/paginator.component';
+import { Component, OnInit,EventEmitter } from '@angular/core';
 import { FavouriteService } from './favourite.service'
 import { GlobalService } from '../../core/services/global.service';
 
@@ -13,7 +12,8 @@ export class FavouriteComponent implements OnInit {
   public abc='szipa';
   public numberOfFavouriteMovies;
   public pageNumber=1;
-
+  private paginatorReset: EventEmitter<any> = new EventEmitter();
+  private searchedPhrase='';
 
   constructor(
     private favouriteService: FavouriteService,
@@ -21,25 +21,37 @@ export class FavouriteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.numberOfFavouriteMovies=this.globalService.getFavouriteMoviesId().length;
+    if(!this.globalService.getFavouriteMoviesId()){
+      this.numberOfFavouriteMovies=0;
+    }else{
+      this.numberOfFavouriteMovies=this.globalService.getFavouriteMoviesId().length;
+    }
     this.reloadFavouriteMoviesList();
+
+    this.globalService.events$.forEach(searchedPhrase =>{
+      this.searchedPhrase=searchedPhrase;
+      this.reloadFavouriteMoviesList();
+      this.paginatorReset.next();
+   })
   }
 
   removeMovieFromFavourites(movieId){
-    this.globalService.removeMovieIdFromFavourites(movieId);
+    this.globalService.removeMovieFromFavourites(movieId);
     this.reloadFavouriteMoviesList();
   }
 
   reloadFavouriteMoviesList(){
-    console.log(this.pageNumber)
-    this.favouriteMovies=[];
-    this.favouriteService.getFavouriteMovies(this.pageNumber).subscribe(movie=>{
-      this.favouriteMovies.push(movie);
-    });
+    let result=this.favouriteService.getFavouriteMovies(this.pageNumber,this.searchedPhrase);
+    this.favouriteMovies=result.movies;
+    this.numberOfFavouriteMovies=result.numberOfMovies;
+    //this.numberOfFavouriteMovies=this.globalService.getFavouriteMoviesId().length;
+    // this.favouriteService.getFavouriteMovies(this.pageNumber).subscribe(movie=>{
+    //   this.favouriteMovies.push(movie);
+    // });
   }
 
   public runSearch(){
-    console.log('favourite')
+    this.paginatorReset.next();
   }
 
   public paginationReload(pageNumber){
