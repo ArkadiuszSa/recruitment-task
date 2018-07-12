@@ -12,15 +12,17 @@
     </div>
 
     <div class='phantom-element'></div>
-    <div class='phantom-element'></div>
-    <div class='phantom-element'></div>
-    <div class='phantom-element'></div>
+    <div class='phantom-element '></div>
+    <div class='phantom-element ' ></div>
+    <div class='phantom-element '></div>
+    <div class='phantom-element ' ></div>
   </div>
 
   <div class='paginator-wrapper'>
     <app-my-paginator
       [numberOfElements]= "numberOfElements"
       [pageReset]= "paginatorReset"
+      [elementsOnPage]="12"
       (pageChange)= "paginationReload($event)"
     ></app-my-paginator>
   </div>

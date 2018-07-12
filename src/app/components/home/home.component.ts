@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HomeService } from'./home.service';
 import { GlobalService } from '../../core/services/global.service';
-import {} from './../../core/components/my-paginator/my-paginator.component'
+import {} from './../../core/components/my-paginator/my-paginator.component'//chyba nie trzeba xddd jak widać
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -13,8 +13,8 @@ export class HomeComponent implements OnInit {
   public searchedPhrase='';
   public searchSucces;
   public numberOfElements;
-  public actualPage;
-  private paginatorReset: EventEmitter<any> = new EventEmitter();
+  //public actualPage;
+  public paginatorReset: EventEmitter<any> = new EventEmitter();
   constructor(
     private homeService: HomeService,
     private globalService: GlobalService,
@@ -24,20 +24,22 @@ export class HomeComponent implements OnInit {
     this.searchedPhrase=this.globalService.getLastSearchedPhrase();
     this.searchMovies(this.globalService.getLastSearchedPhrase(),1);
 
-    this.globalService.events$.forEach(searchedPhrase =>{
-        this.globalService.setLastSearchedPhrase(searchedPhrase);
-        this.searchedPhrase=searchedPhrase
-        this.searchMovies(searchedPhrase,1);
+    this.globalService.events$.forEach(event =>{
+      if(event.destination==='/'){
+        this.globalService.setLastSearchedPhrase(event.searchedPhrase);
+        this.searchedPhrase=event.searchedPhrase;
+        this.searchMovies(event.searchedPhrase,1);
         this.paginatorReset.next();
+      }
     })
   }
   
   searchMovies(searchedPhrase, pageNumber){
     this.homeService.getMovies(searchedPhrase, pageNumber).subscribe(res=>{
       if(res!=='error'){
-        this.searchedPhrase=searchedPhrase;
         this.movies=res.movies;
         this.numberOfElements=res.numberOfResults;
+        this.searchedPhrase=searchedPhrase;
         this.searchSucces=true;
         
       }else{

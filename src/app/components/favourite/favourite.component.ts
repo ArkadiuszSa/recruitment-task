@@ -9,11 +9,10 @@ import { GlobalService } from '../../core/services/global.service';
 })
 export class FavouriteComponent implements OnInit {
   public favouriteMovies=[];
-  public abc='szipa';
   public numberOfFavouriteMovies;
   public pageNumber=1;
-  private paginatorReset: EventEmitter<any> = new EventEmitter();
-  private searchedPhrase='';
+  public paginatorReset: EventEmitter<any> = new EventEmitter();
+  public searchedPhrase='';
 
   constructor(
     private favouriteService: FavouriteService,
@@ -28,8 +27,9 @@ export class FavouriteComponent implements OnInit {
     }
     this.reloadFavouriteMoviesList();
 
-    this.globalService.events$.forEach(searchedPhrase =>{
-      this.searchedPhrase=searchedPhrase;
+    this.globalService.events$.forEach(event =>{
+      this.pageNumber=1;
+      this.searchedPhrase=event.searchedPhrase;
       this.reloadFavouriteMoviesList();
       this.paginatorReset.next();
    })
@@ -44,10 +44,6 @@ export class FavouriteComponent implements OnInit {
     let result=this.favouriteService.getFavouriteMovies(this.pageNumber,this.searchedPhrase);
     this.favouriteMovies=result.movies;
     this.numberOfFavouriteMovies=result.numberOfMovies;
-    //this.numberOfFavouriteMovies=this.globalService.getFavouriteMoviesId().length;
-    // this.favouriteService.getFavouriteMovies(this.pageNumber).subscribe(movie=>{
-    //   this.favouriteMovies.push(movie);
-    // });
   }
 
   public runSearch(){

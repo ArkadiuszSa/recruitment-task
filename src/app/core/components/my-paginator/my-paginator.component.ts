@@ -7,10 +7,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class MyPaginatorComponent {
   @Input() numberOfElements: number = 0;
+  @Input() elementsOnPage: number=10;
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
   @Input() pageReset: EventEmitter<number> = new EventEmitter<number>();
   public buttonsNumber=2;
-  public buttonsArr=[1,2];
+  public buttonsArr;
   public pageNumber=1;
   public maxPage;
   public infoFrom=0;
@@ -18,17 +19,18 @@ export class MyPaginatorComponent {
   constructor() {}
 
   ngOnChanges() {
-    this.maxPage=Math.ceil(this.numberOfElements/10);
+    this.buttonsArr= Array.from('x'.repeat(this.buttonsNumber))
+    this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
     
     if(this.numberOfElements===0){
       this.infoFrom=0;
       this.infoTo=0;
-    }else if(this.numberOfElements<=10){
+    }else if(this.numberOfElements<=this.elementsOnPage){
       this.infoFrom=1;
       this.infoTo=this.numberOfElements;
     }else{
       this.infoFrom=1;
-      this.infoTo=10;
+      this.infoTo=this.elementsOnPage;
     }
 
     this.pageReset.subscribe(()=>{
@@ -75,23 +77,31 @@ export class MyPaginatorComponent {
   reload(){
     window.scrollTo(0,0)
 
-    if(this.numberOfElements<=10) {
+    if(this.numberOfElements<=this.elementsOnPage) {
       this.infoFrom=1;
       this.infoTo=this.numberOfElements;
     
     }else if(this.pageNumber===this.maxPage) {
-      this.infoFrom=this.numberOfElements-this.numberOfElements%10+1;
+      this.infoFrom=this.numberOfElements-this.numberOfElements%this.elementsOnPage+1;
       this.infoTo=this.numberOfElements;
     
     }else if(this.pageNumber>1&&this.pageNumber<this.maxPage) {
-      this.infoFrom=(this.pageNumber-1)*10+1;
-      this.infoTo=(this.pageNumber)*10;
+      this.infoFrom=(this.pageNumber-1)*this.elementsOnPage+1;
+      this.infoTo=(this.pageNumber)*this.elementsOnPage;
 
     }else if(this.pageNumber===1){
       this.infoFrom=1
-      this.infoTo=10;
+      this.infoTo=this.elementsOnPage;
     }
     this.pageChange.emit(this.pageNumber);
+  }
+
+  onResize(){
+    if(window.innerWidth<500){
+      this.buttonsArr= Array.from('x'.repeat(1))
+    }else{
+      this.buttonsArr= Array.from('x'.repeat(2))
+    }
   }
 
 }

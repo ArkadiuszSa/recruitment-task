@@ -68,7 +68,6 @@ export class FavouriteService {
         let title=movie.title.toUpperCase();
         return title.includes(searchedPhrase)
       })
-      console.log(allFavouriteMovies)
     }
 
     let from=(pageNumber-1)*10;
@@ -80,7 +79,6 @@ export class FavouriteService {
     }
     numberOfMovies=allFavouriteMovies.length
     favouriteMovies=allFavouriteMovies.slice(from, to);
-    console.log(favouriteMovies)
     return {'movies':favouriteMovies,'numberOfMovies':numberOfMovies};
   }
 

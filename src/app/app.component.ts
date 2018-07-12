@@ -54,6 +54,7 @@ export class AppComponent {
   }
 
   runSearch(){
-    this.globalService.newEvent(this.searchedPhrase);
+    let destination=this.router.url;
+    this.globalService.newEvent({'searchedPhrase':this.searchedPhrase, 'destination':destination});
   }
 }

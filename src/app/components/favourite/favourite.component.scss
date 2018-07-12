@@ -11,7 +11,7 @@ $page-margin: 150px;
         font-size:2em;
     }
 
-    .favourite-movies-list{
+    .favourite-movies-container{
         margin-left:$page-margin;
         margin-right:$page-margin;
         display:flex;
@@ -40,6 +40,7 @@ $page-margin: 150px;
         }
         .poster-img{
             height: 150px;
+            width:102px;
         }
         .description-container{
             display:flex;
@@ -71,3 +72,73 @@ $page-margin: 150px;
         margin-top: auto;
     }
 }
+
+@media only screen and (max-width: 1007px) {
+   
+    .favourite-movies-container{
+        margin-left:60px !important;
+        margin-right:60px !important;
+    }
+    .favourite-movie{
+        height:110px !important;
+    }
+    .description-container{
+        justify-content: center !important;
+    }
+    .favourite-movie > *{
+        margin-right: 5px !important;
+        
+    }
+    .poster-img{
+        height: 100px!important;
+        width: 75px!important;
+    }
+
+    .favourite-result-paragraph{
+
+        margin-left:60px !important;
+
+    }
+
+    .title-span{
+        font-size:1.1em !important;
+    }
+    .year-span{
+        font-size:1.1em !important;
+        margin-left:5px !important;
+    }
+    .type-label-span{
+        font-size:1.1em !important;
+    }
+    .type-value-span{
+        font-size:1.1em !important;
+    }
+ }
+
+ @media only screen and (max-width: 640px) {
+    .favourite-movies-container{
+        margin-left:20px !important;
+        margin-right:20px !important;
+    }
+    .title-span{
+        font-size:1em !important;
+    }
+    .year-span{
+        font-size:1em !important;
+        margin-left:5px !important;
+    }
+    .type-label-span{
+        font-size:1em !important;
+    }
+    .type-value-span{
+        font-size:1em !important;
+    }
+ }
+
+ @media only screen and (max-width: 604px) {
+    .favourite-result-paragraph{
+        font-size:1.5em !important;
+        text-align:center !important;
+        margin-left:0 !important;
+    }
+ }

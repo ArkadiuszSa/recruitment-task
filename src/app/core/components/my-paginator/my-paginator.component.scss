@@ -23,11 +23,11 @@
         font-family: HelveticaNeue !important;
 
     }
-    .paginator-button:hover{
-        background-color:#FFA310;
-        color: #1F1F1F;
-        border-color:#1F1F1F;
-    }
+    // .paginator-button:hover{
+    //     background-color:#FFA310;
+    //     color: #1F1F1F;
+    //     border-color:#1F1F1F;
+    // }
     .paginator-button:focus{
         outline:0;
     }
@@ -60,3 +60,18 @@
     color:#FFA310;
     font-family: HelveticaNeue !important;
 }
+
+@media only screen and (max-width: 500px) {
+    .paginator-button{
+        font-size:0.8em !important;
+
+    }
+ }
+
+ @media (pointer: fine) {
+       .paginator-button:hover{
+        background-color:#FFA310!important;
+        color: #1F1F1F!important;
+        border-color:#1F1F1F!important;
+    }
+  }
