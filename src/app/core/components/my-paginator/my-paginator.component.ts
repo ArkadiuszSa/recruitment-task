@@ -10,6 +10,7 @@ export class MyPaginatorComponent {
   @Input() elementsOnPage: number=10;
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
   @Input() pageReset: EventEmitter<number> = new EventEmitter<number>();
+  @Input() buttonsReset: EventEmitter<number> = new EventEmitter<number>();
   public buttonsNumber=2;
   public buttonsArr;
   public pageNumber=1;
@@ -38,6 +39,10 @@ export class MyPaginatorComponent {
       this.numberOfElements=0;
       this.infoFrom=0;
       this.infoTo=0;
+    })
+
+    this.buttonsReset.subscribe(()=>{
+      this.pageNumber=1;
     })
   }
   
@@ -99,9 +104,13 @@ export class MyPaginatorComponent {
   onResize(){
     if(window.innerWidth<500){
       this.buttonsArr= Array.from('x'.repeat(1))
+      this.buttonsNumber=1;
     }else{
       this.buttonsArr= Array.from('x'.repeat(2))
+      this.buttonsNumber=2;
     }
   }
+
+
 
 }

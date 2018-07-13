@@ -12,6 +12,8 @@ export class FavouriteComponent implements OnInit {
   public numberOfFavouriteMovies;
   public pageNumber=1;
   public paginatorReset: EventEmitter<any> = new EventEmitter();
+  public buttonsReset: EventEmitter<any> = new EventEmitter();
+
   public searchedPhrase='';
 
   constructor(
@@ -31,7 +33,7 @@ export class FavouriteComponent implements OnInit {
       this.pageNumber=1;
       this.searchedPhrase=event.searchedPhrase;
       this.reloadFavouriteMoviesList();
-      this.paginatorReset.next();
+      this.buttonsReset.next();
    })
   }
 
@@ -54,5 +56,7 @@ export class FavouriteComponent implements OnInit {
     this.pageNumber=pageNumber;
     this.reloadFavouriteMoviesList();
   }
+
+
 
 }

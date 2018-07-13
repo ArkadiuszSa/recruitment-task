@@ -22,6 +22,7 @@
     <app-my-paginator
       [numberOfElements]= "numberOfElements"
       [pageReset]= "paginatorReset"
+      [buttonsReset]='buttonsReset'
       [elementsOnPage]="12"
       (pageChange)= "paginationReload($event)"
     ></app-my-paginator>

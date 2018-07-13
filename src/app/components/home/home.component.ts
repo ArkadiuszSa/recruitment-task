@@ -11,10 +11,10 @@ export class HomeComponent implements OnInit {
   @Output() public myEmitter = new EventEmitter();
   public movies;
   public searchedPhrase='';
-  public searchSucces;
+  public searchSucces=true;
   public numberOfElements;
-  //public actualPage;
   public paginatorReset: EventEmitter<any> = new EventEmitter();
+  public buttonsReset: EventEmitter<any> = new EventEmitter();
   constructor(
     private homeService: HomeService,
     private globalService: GlobalService,
@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit {
         this.globalService.setLastSearchedPhrase(event.searchedPhrase);
         this.searchedPhrase=event.searchedPhrase;
         this.searchMovies(event.searchedPhrase,1);
-        this.paginatorReset.next();
+        //this.paginatorReset.next();
+        this.buttonsReset.next();
       }
     })
   }

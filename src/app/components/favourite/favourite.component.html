@@ -27,6 +27,7 @@
         <app-my-paginator
             [numberOfElements]='numberOfFavouriteMovies'
             [pageReset]="paginatorReset"
+            [buttonsReset]='buttonsReset'
             (pageChange)='paginationReload($event)'
         ></app-my-paginator>
     </div>

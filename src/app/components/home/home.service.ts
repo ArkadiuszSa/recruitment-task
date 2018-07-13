@@ -73,27 +73,35 @@ export class HomeService {
 
   getMovies(searchedPhrase,pageNumber){
     let from=(pageNumber-1)*12;
-    let apiPage1=from%10;
-    let apiPage2=apiPage1+1;
-
-
-    let firstPage$= this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+pageNumber).pipe((res)=>{
+    let apiPage2=Math.ceil(pageNumber*12/10);
+    let apiPage1=apiPage2-1;
+    // let apiPage1=from%10+1;
+    // let apiPage2=apiPage1+1;
+    // console.log('lastPage: '+apiPage2)
+    console.log(pageNumber)
+    console.log('frist'+apiPage1)
+    console.log('last:'+apiPage2)
+   
+    let firstPage$= this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+apiPage1).pipe((res)=>{
       return res;
     })
 
-    let secondPage$= this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+(pageNumber+1)).pipe((res)=>{
+    let secondPage$= this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+apiPage2).pipe((res)=>{
       return res;
     })
 
     let result;
     return Observable.forkJoin(firstPage$,secondPage$).pipe(
       map(res=>{
+
         if(res[0].Response === 'True'&&res[1].Response === 'True'){
-          let moviesFromFirstPage=res[0].Search.slice(from%10,10);
-          let moviesFromSecondPage=res[1].Search.slice(0,(from+12)%10);
+          let moviesFromFirstPage=res[0].Search.slice(from%10, 10);
+          let moviesFromSecondPage=res[1].Search.slice(0, (from+12)%10 || 10);
           result=moviesFromFirstPage.concat(moviesFromSecondPage);  
+         
         }else if(res[0].Response === 'True'){
-          let moviesFromFirstPage=res[0].Search.slice(from%10,res[0].Search.length);
+          console.log('uaaaaa'+res[0].Search.length)
+          result=res[0].Search.slice(from%10,res[0].Search.length);
         }else{
           return 'error';
         }
