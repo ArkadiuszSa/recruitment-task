@@ -41,7 +41,7 @@ $page-margin: 150px;
     .logo-png{
         height: 33px;
         margin: auto;
-        padding-left: 267px;
+        padding-left: 224px;
     }
     .search-input{
         height: 33px;
@@ -89,8 +89,8 @@ $page-margin: 150px;
         transform: scale(1.1);
     }
 }
-hr{
-    margin:0;
+.break-line{
+    border-color:#707070;
 }
 
 .footer-img{
@@ -101,10 +101,6 @@ hr{
 }
 
 @media only screen and (max-width: 1430px) {
-    // .toolbar{
-    //     margin-left:60px !important;
-    //     margin-right:60px !important;
-    // }
     .logo-png{
         margin: auto  !important;
         padding: 0 !important;
@@ -112,7 +108,7 @@ hr{
  
  }
 
- @media only screen and (max-width: 1007px) {
+ @media only screen and (max-width: 1022px) {
    
     .toolbar{
         margin-left:60px !important;

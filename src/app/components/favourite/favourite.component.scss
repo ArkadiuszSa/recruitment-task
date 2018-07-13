@@ -6,9 +6,12 @@ $page-margin: 150px;
     flex-direction: column;
     .favourite-result-paragraph{
         color:#FFA310;
-        font-family: HelveticaNeue !important;
+        font-family: HelveticaNeueThin !important;
         margin-left:$page-margin;
         font-size:2em;
+        span{
+            font-weight: bold;
+        }
     }
 
     .favourite-movies-container{
@@ -66,6 +69,9 @@ $page-margin: 150px;
             margin-left:25px;
             font-size:1.5em;
             color: #707070;
+        }
+        .break-line{
+            border-color:#707070;
         }
     }
     .paginator-wrapper{

@@ -22,7 +22,6 @@ export class MyPaginatorComponent {
   ngOnChanges() {
     this.buttonsArr= Array.from('x'.repeat(this.buttonsNumber))
     this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
-    
     if(this.numberOfElements===0){
       this.infoFrom=0;
       this.infoTo=0;
@@ -34,11 +33,18 @@ export class MyPaginatorComponent {
       this.infoTo=this.elementsOnPage;
     }
 
+    this.checkNumberOfButtonsForResoution();
+
     this.pageReset.subscribe(()=>{
       this.pageNumber=1;
       this.numberOfElements=0;
       this.infoFrom=0;
       this.infoTo=0;
+      this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
+      console.log('hejoa')
+      console.log(this.maxPage)
+      console.log((this.pageNumber+2+1) <= this.maxPage)
+      //this.onResize();
     })
 
     this.buttonsReset.subscribe(()=>{
@@ -81,13 +87,12 @@ export class MyPaginatorComponent {
 
   reload(){
     window.scrollTo(0,0)
-
     if(this.numberOfElements<=this.elementsOnPage) {
       this.infoFrom=1;
       this.infoTo=this.numberOfElements;
     
     }else if(this.pageNumber===this.maxPage) {
-      this.infoFrom=this.numberOfElements-this.numberOfElements%this.elementsOnPage+1;
+      this.infoFrom=this.numberOfElements-((this.numberOfElements%this.elementsOnPage)||this.elementsOnPage)+1;
       this.infoTo=this.numberOfElements;
     
     }else if(this.pageNumber>1&&this.pageNumber<this.maxPage) {
@@ -101,7 +106,7 @@ export class MyPaginatorComponent {
     this.pageChange.emit(this.pageNumber);
   }
 
-  onResize(){
+  checkNumberOfButtonsForResoution(){
     if(window.innerWidth<500){
       this.buttonsArr= Array.from('x'.repeat(1))
       this.buttonsNumber=1;

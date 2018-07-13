@@ -33,16 +33,7 @@ export class AppComponent {
     }else{
       this.searchedPhrase=this.globalService.getLastSearchedPhrase();
     }
-    // this.homeComponent.searchMovies(this.searchedPhrase)
-
     
-    if(this.router.url==='/'){
-      //this.homeComponent.searchMovies(this.searchedPhrase)
-    }else{
-      
-    }
-
-
     this.router.events.subscribe((val) =>{
       if(this.router.url==='/'){
         this.redirectCondition=true;

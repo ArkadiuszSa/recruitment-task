@@ -15,9 +15,7 @@ export class HomeService {
   constructor(
     private http: HttpClient,
     private globalService: GlobalService
-  ){   
-    
-  }
+  ){}
  
    getMovies2(searchedPhrase, pageNumber){
      return this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+pageNumber).pipe(
@@ -75,12 +73,6 @@ export class HomeService {
     let from=(pageNumber-1)*12;
     let apiPage2=Math.ceil(pageNumber*12/10);
     let apiPage1=apiPage2-1;
-    // let apiPage1=from%10+1;
-    // let apiPage2=apiPage1+1;
-    // console.log('lastPage: '+apiPage2)
-    console.log(pageNumber)
-    console.log('frist'+apiPage1)
-    console.log('last:'+apiPage2)
    
     let firstPage$= this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+apiPage1).pipe((res)=>{
       return res;
@@ -100,13 +92,11 @@ export class HomeService {
           result=moviesFromFirstPage.concat(moviesFromSecondPage);  
          
         }else if(res[0].Response === 'True'){
-          console.log('uaaaaa'+res[0].Search.length)
           result=res[0].Search.slice(from%10,res[0].Search.length);
         }else{
           return 'error';
         }
-        console.log(res)
-        console.log(result)
+
         return {'movies':this.transformToMovie(result),'numberOfResults':res[0].totalResults}
       })
 

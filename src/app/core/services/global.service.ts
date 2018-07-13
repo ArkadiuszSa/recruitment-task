@@ -80,7 +80,11 @@ export class GlobalService {
 
   getFavouriteMovies(){
     let favouriteMoviesJson=localStorage.getItem('favoriteMovies');
-    return JSON.parse(favouriteMoviesJson)
+    if(favouriteMoviesJson===null){
+      return [];
+    }else{
+      return JSON.parse(favouriteMoviesJson)
+    }
   }
 
   getFavouriteMoviesId2(){

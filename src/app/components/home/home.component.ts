@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   public searchedPhrase='';
   public searchSucces=true;
   public numberOfElements;
+  public pageNumber=1;
   public paginatorReset: EventEmitter<any> = new EventEmitter();
   public buttonsReset: EventEmitter<any> = new EventEmitter();
   constructor(
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
 
     this.globalService.events$.forEach(event =>{
       if(event.destination==='/'){
+        this.pageNumber=1;
         this.globalService.setLastSearchedPhrase(event.searchedPhrase);
         this.searchedPhrase=event.searchedPhrase;
         this.searchMovies(event.searchedPhrase,1);
@@ -45,8 +47,11 @@ export class HomeComponent implements OnInit {
         
       }else{
         this.movies=[];
+        this.pageNumber=1;
         this.searchSucces=false;
         this.paginatorReset.next();
+        this.buttonsReset.next();
+
       }    
     })
   }
@@ -62,6 +67,7 @@ export class HomeComponent implements OnInit {
   }
 
   paginationReload(pageNumber){
+    this.pageNumber=pageNumber;
     this.searchMovies(this.searchedPhrase, pageNumber);
   }
 }

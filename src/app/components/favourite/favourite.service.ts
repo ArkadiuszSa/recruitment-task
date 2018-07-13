@@ -13,10 +13,6 @@ export class FavouriteService {
 
   getFavouriteMovies2(pageNumber,searchedPhrase){
     let allFavouriteMoviesId=this.globalService.getFavouriteMoviesId();
-
-
-
-
     let from=(pageNumber-1)*10;
     let to;
     if(pageNumber*10>allFavouriteMoviesId.length){
@@ -53,17 +49,7 @@ export class FavouriteService {
     let favouriteMovies=[];
     let numberOfMovies;
     if(searchedPhrase!==''){
-      searchedPhrase=searchedPhrase.toUpperCase();
-      // for(let movie of allFavouriteMovies){
-      //   let title=movie.title.toUpperCase();
-      //   if(title.includes(searchedPhrase){
-      //     favouriteMovies.push(movie)
-      //   }
-      //   console.log(movie)
-      //   console.log(title.includes(searchedPhrase))
-       
-      // }
-      
+      searchedPhrase=searchedPhrase.toUpperCase();      
       allFavouriteMovies=allFavouriteMovies.filter((movie)=>{
         let title=movie.title.toUpperCase();
         return title.includes(searchedPhrase)

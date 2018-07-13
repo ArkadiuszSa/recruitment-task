@@ -56,7 +56,4 @@ export class FavouriteComponent implements OnInit {
     this.pageNumber=pageNumber;
     this.reloadFavouriteMoviesList();
   }
-
-
-
 }

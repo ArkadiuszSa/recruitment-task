@@ -9,9 +9,12 @@ $page-margin: 150px;
     flex-direction: column;
     .search-result-paragraph{
         color:$primary-color;
-        font-family: HelveticaNeue !important;
+        font-family: HelveticaNeueThin !important;
         margin-left:150px;
-        font-size:2.5em;
+        font-size:2em;
+        span{
+            font-weight: bold;
+        }
     }
 
     .movies-container{
@@ -38,9 +41,6 @@ $page-margin: 150px;
             margin-bottom:20px;
             margin-left:10px;
             margin-right:10px;
-            border:white;
-            border-width:1px;
-            border-style:solid;
             overflow: hidden;
             .poster-heart-svg{
                 width: 39px;
