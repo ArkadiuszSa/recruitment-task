@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   public searchSucces=true;
   public numberOfElements;
   public pageNumber=1;
-  public buttonsReset: EventEmitter<any> = new EventEmitter();
+  public buttonsReset: EventEmitter<Array<any>> = new EventEmitter();
   constructor(
     private homeService: HomeService,
     private globalService: GlobalService,
@@ -21,16 +21,16 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.searchedPhrase=this.globalService.getLastSearchedPhrase();
     this.searchMovies(this.globalService.getLastSearchedPhrase(),1);
-
     this.globalService.events$.forEach(event =>{
       if(event.destination==='/'){
         this.pageNumber=1;
         this.globalService.setLastSearchedPhrase(event.searchedPhrase);
         this.searchedPhrase=event.searchedPhrase;
         this.searchMovies(event.searchedPhrase,1);
-        this.buttonsReset.next(1);
+        this.buttonsReset.next([this.pageNumber,this.numberOfElements]);
       }
     })
+    
   }
   
   searchMovies(searchedPhrase, pageNumber){
@@ -47,7 +47,8 @@ export class HomeComponent implements OnInit {
         this.pageNumber=1;
         this.searchSucces=false;
         this.numberOfElements=0;
-      }    
+      }   
+      this.buttonsReset.next([this.pageNumber,this.numberOfElements]);
     })
   }
 

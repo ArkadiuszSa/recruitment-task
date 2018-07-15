@@ -13,6 +13,7 @@ export class FavouriteComponent implements OnInit {
   public pageNumber=1;
   public buttonsReset: EventEmitter<any> = new EventEmitter();
   public searchedPhrase='';
+  private condition=true;
 
   constructor(
     private favouriteService: FavouriteService,
@@ -20,12 +21,12 @@ export class FavouriteComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.reloadFavouriteMoviesList();
+    this.reloadFavouriteMoviesList('scroll');
     this.globalService.events$.forEach(event =>{
       this.pageNumber=1;
       this.searchedPhrase=event.searchedPhrase;
-      this.reloadFavouriteMoviesList();
-      this.buttonsReset.next(1);
+      this.reloadFavouriteMoviesList('scroll');
+      this.buttonsReset.next([this.pageNumber,this.numberOfFavouriteMovies]);
    })
   }
 
@@ -33,18 +34,25 @@ export class FavouriteComponent implements OnInit {
     if((this.numberOfFavouriteMovies%10)===1){
       if(this.pageNumber>1) this.pageNumber--;
     }
+    this.condition=false;
     this.globalService.removeMovieFromFavourites(movieId);
-    this.buttonsReset.next(this.pageNumber);
+    this.reloadFavouriteMoviesList('jest');
   }
 
-  reloadFavouriteMoviesList(){
-    window.scrollTo(0,0);
+  reloadFavouriteMoviesList(scrollUp){
+
+    if(this.condition){
+      window.scrollTo(0,0);
+    }else{
+      this.condition=true;
+    }
     let result=this.favouriteService.getFavouriteMovies(this.pageNumber,this.searchedPhrase);
     this.favouriteMovies=result.movies;
     this.numberOfFavouriteMovies=result.numberOfMovies;
-  }
+    this.buttonsReset.next([this.pageNumber,this.numberOfFavouriteMovies]);
+    }
   public paginationReload(pageNumber){
     this.pageNumber=pageNumber;
-    this.reloadFavouriteMoviesList();
+    this.reloadFavouriteMoviesList('scroll');
   }
 }

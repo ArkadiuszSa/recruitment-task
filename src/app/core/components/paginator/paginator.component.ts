@@ -8,8 +8,7 @@ export class PaginatorComponent {
   @Input() numberOfElements: number = 0;
   @Input() elementsOnPage: number=10;
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
-  @Input() pageReset: EventEmitter<number> = new EventEmitter<number>();
-  @Input() buttonsReset: EventEmitter<number> = new EventEmitter<number>();
+  @Input() buttonsReset: EventEmitter<number> = new EventEmitter<any>();
   public buttonsNumber=2;
   public buttonsArr;
   public pageNumber=1;
@@ -18,26 +17,24 @@ export class PaginatorComponent {
   public infoTo=0;
   constructor() {}
 
-  ngOnChanges() {
-    this.buttonsArr= Array.from('x'.repeat(this.buttonsNumber))
-    this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
-    this.reload();
-    this.checkNumberOfButtonsForResoution();
-    this.pageReset.subscribe(()=>{
-      this.pageNumber=1;
-      this.numberOfElements=0;
-      this.infoFrom=0;
-      this.infoTo=0;
-      this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
+  ngOnInit(){
+    this.reset();
+    this.buttonsReset.subscribe((arr)=>{//kiedy z zewnątrz wchodzi info o zmianie
+      this.pageNumber=arr[0];
+      this.numberOfElements=arr[1];
+      console.log(this.pageNumber)
+      console.log()
+     this.reset()
     })
   }
 
-  ngOnInit(){
-    this.buttonsReset.subscribe((number)=>{
-      this.pageNumber=number;
-      this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
-      this.reload()
-    })
+  reset(){
+    console.log('numberofelements:'+this.numberOfElements)
+    this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
+    this.manageButtonsNumber();
+    this.updateInfo();
+    console.log(this.maxPage)
+    console.log(this.numberOfElements)
   }
   
   firstClick() {
@@ -74,6 +71,12 @@ export class PaginatorComponent {
   }
 
   reload(){
+    this.reset();
+    this.pageChange.emit(this.pageNumber);
+  }
+
+  updateInfo(){
+    this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
     if(this.numberOfElements===0){
       this.infoFrom=0;
       this.infoTo=0;
@@ -94,10 +97,9 @@ export class PaginatorComponent {
       this.infoFrom=1
       this.infoTo=this.elementsOnPage;
     }
-    this.pageChange.emit(this.pageNumber);
   }
 
-  checkNumberOfButtonsForResoution(){
+  manageButtonsNumber(){
     if(window.innerWidth<500){
       this.buttonsArr= Array.from('x'.repeat(1))
       this.buttonsNumber=1;

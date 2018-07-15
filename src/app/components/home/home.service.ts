@@ -59,36 +59,26 @@ export class HomeService {
     let from=(pageNumber-1)*12;
     let apiPage2=Math.ceil(pageNumber*12/10);
     let apiPage1=apiPage2-1;
-   
     let firstPage$= this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+apiPage1).pipe((res)=>{
       return res;
     })
-
     let secondPage$= this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+apiPage2).pipe((res)=>{
       return res;
     })
-
     let result;
     return Observable.forkJoin(firstPage$,secondPage$).pipe(
       map(res=>{
-
-        if(res[0].Response === 'True'&&res[1].Response === 'True'){
+        if(res[0].Response === 'True'&&res[1].Response === 'True') {
           let moviesFromFirstPage=res[0].Search.slice(from%10, 10);
           let moviesFromSecondPage=res[1].Search.slice(0, (from+12)%10 || 10);
           result=moviesFromFirstPage.concat(moviesFromSecondPage);  
-         
-        }else if(res[0].Response === 'True'){
+        }else if(res[0].Response === 'True') {
           result=res[0].Search.slice(from%10,res[0].Search.length);
         }else{
           return 'error';
         }
-
         return {'movies':this.transformToMovie(result),'numberOfResults':res[0].totalResults}
       })
-
     )
-
   }
-
-
 }
