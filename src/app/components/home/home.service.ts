@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import {Observable} from 'rxjs/Rx'
+import {Observable} from 'rxjs'
 import { map } from 'rxjs/operators'
 import { GlobalService } from '../../core/services/global.service';
 
@@ -17,18 +17,6 @@ export class HomeService {
     private globalService: GlobalService
   ){}
  
-   getMovies2(searchedPhrase, pageNumber){
-     return this.http.get<any>(this.url + '&s='+searchedPhrase+ '&page='+pageNumber).pipe(
-       map(movies=>{
-        if(movies.Response==='True'){
-          return {'movies':this.transformToMovie(movies.Search),'numberOfResults':movies.totalResults}
-        }else{
-          return 'error'
-        }
-       })
-     )
-  }
-
   addMovieToFavourites(movieId) {
     return this.http.get<any>(this.url + '&i=' + movieId).pipe(
       map(movieData=>{
@@ -66,8 +54,6 @@ export class HomeService {
     }
     return movies;
   }
-
-
 
   getMovies(searchedPhrase,pageNumber){
     let from=(pageNumber-1)*12;

@@ -6,20 +6,20 @@ import { FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { FavouriteComponent } from './components/favourite/favourite.component';
+import { PaginatorComponent } from './core/components/paginator/paginator.component';
 
 import { HomeService } from'./components/home/home.service';
 import { FavouriteService } from'./components/favourite/favourite.service';
 import { GlobalService } from'./core/services/global.service';
 
 import { AppRoutingModule } from './app-routing.module';
-import { MyPaginatorComponent } from './core/components/my-paginator/my-paginator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FavouriteComponent,
-    MyPaginatorComponent
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

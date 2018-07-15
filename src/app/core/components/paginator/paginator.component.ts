@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
 @Component({
-  selector: 'app-my-paginator',
-  templateUrl: './my-paginator.component.html',
-  styleUrls: ['./my-paginator.component.scss']
+  selector: 'app-paginator',
+  templateUrl: './paginator.component.html',
+  styleUrls: ['./paginator.component.scss']
 })
-export class MyPaginatorComponent {
+export class PaginatorComponent {
   @Input() numberOfElements: number = 0;
   @Input() elementsOnPage: number=10;
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
@@ -22,33 +21,22 @@ export class MyPaginatorComponent {
   ngOnChanges() {
     this.buttonsArr= Array.from('x'.repeat(this.buttonsNumber))
     this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
-    if(this.numberOfElements===0){
-      this.infoFrom=0;
-      this.infoTo=0;
-    }else if(this.numberOfElements<=this.elementsOnPage){
-      this.infoFrom=1;
-      this.infoTo=this.numberOfElements;
-    }else{
-      this.infoFrom=1;
-      this.infoTo=this.elementsOnPage;
-    }
-
+    this.reload();
     this.checkNumberOfButtonsForResoution();
-
     this.pageReset.subscribe(()=>{
       this.pageNumber=1;
       this.numberOfElements=0;
       this.infoFrom=0;
       this.infoTo=0;
       this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
-      console.log('hejoa')
-      console.log(this.maxPage)
-      console.log((this.pageNumber+2+1) <= this.maxPage)
-      //this.onResize();
     })
+  }
 
-    this.buttonsReset.subscribe(()=>{
-      this.pageNumber=1;
+  ngOnInit(){
+    this.buttonsReset.subscribe((number)=>{
+      this.pageNumber=number;
+      this.maxPage=Math.ceil(this.numberOfElements/this.elementsOnPage);
+      this.reload()
     })
   }
   
@@ -86,15 +74,18 @@ export class MyPaginatorComponent {
   }
 
   reload(){
-    window.scrollTo(0,0)
-    if(this.numberOfElements<=this.elementsOnPage) {
+    if(this.numberOfElements===0){
+      this.infoFrom=0;
+      this.infoTo=0;
+
+    }else if(this.numberOfElements<=this.elementsOnPage) {
       this.infoFrom=1;
       this.infoTo=this.numberOfElements;
     
     }else if(this.pageNumber===this.maxPage) {
       this.infoFrom=this.numberOfElements-((this.numberOfElements%this.elementsOnPage)||this.elementsOnPage)+1;
       this.infoTo=this.numberOfElements;
-    
+
     }else if(this.pageNumber>1&&this.pageNumber<this.maxPage) {
       this.infoFrom=(this.pageNumber-1)*this.elementsOnPage+1;
       this.infoTo=(this.pageNumber)*this.elementsOnPage;
@@ -115,7 +106,4 @@ export class MyPaginatorComponent {
       this.buttonsNumber=2;
     }
   }
-
-
-
 }

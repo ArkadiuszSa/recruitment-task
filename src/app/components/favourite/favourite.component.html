@@ -9,6 +9,9 @@
         <div class=favourite-movie>
             <img (click)='removeMovieFromFavourites(favouriteMovie._id)' class='heart-svg' src="./../assets/img/gold_heart.svg">
             <img *ngIf='favouriteMovie.posterUrl!=="N/A"' class='poster-img' src='{{favouriteMovie.posterUrl}}'>
+            <div *ngIf='favouriteMovie.posterUrl==="N/A"' class='poster-img'>
+                <span>N/A</span>
+            </div>
             <div class='description-container'>
                 <div class='top-description-container'>
                     <span class='title-span'>{{favouriteMovie.title}}</span>
@@ -24,11 +27,11 @@
     </div>
 </div>
     <div class='paginator-wrapper'>
-        <app-my-paginator
+        <app-paginator
             [numberOfElements]='numberOfFavouriteMovies'
-            [pageReset]="paginatorReset"
             [buttonsReset]='buttonsReset'
+            [elementsOnPage]="10"
             (pageChange)='paginationReload($event)'
-        ></app-my-paginator>
+        ></app-paginator>
     </div>
 </div>

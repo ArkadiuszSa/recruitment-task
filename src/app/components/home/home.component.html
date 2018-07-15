@@ -1,6 +1,6 @@
 <div class='home-page-wrapper'>
   <p *ngIf='searchSucces' class='search-result-paragraph'>Search results for <span>"{{searchedPhrase}}"</span></p>
-  <p *ngIf='!searchSucces' class='search-result-paragraph'>No result for<span>"{{searchedPhrase}}"</span>, try different keywords.</p>
+  <p *ngIf='!searchSucces' class='search-result-paragraph'>No result for <span>"{{searchedPhrase}}"</span>, try different keywords</p>
 
   <div class='movies-container'>
     <div *ngFor='let movie of movies; let i = index' class='movie-container item'>
@@ -19,13 +19,12 @@
   </div>
 
   <div class='paginator-wrapper'>
-    <app-my-paginator
+    <app-paginator
       [numberOfElements]= "numberOfElements"
-      [pageReset]= "paginatorReset"
       [buttonsReset]='buttonsReset'
       [elementsOnPage]="12"
       (pageChange)= "paginationReload($event)"
-    ></app-my-paginator>
+    ></app-paginator>
   </div>
 </div>
 

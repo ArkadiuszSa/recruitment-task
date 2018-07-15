@@ -1,20 +1,17 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HomeService } from'./home.service';
 import { GlobalService } from '../../core/services/global.service';
-import {} from './../../core/components/my-paginator/my-paginator.component'//chyba nie trzeba xddd jak widać
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @Output() public myEmitter = new EventEmitter();
   public movies;
   public searchedPhrase='';
   public searchSucces=true;
   public numberOfElements;
   public pageNumber=1;
-  public paginatorReset: EventEmitter<any> = new EventEmitter();
   public buttonsReset: EventEmitter<any> = new EventEmitter();
   constructor(
     private homeService: HomeService,
@@ -31,13 +28,14 @@ export class HomeComponent implements OnInit {
         this.globalService.setLastSearchedPhrase(event.searchedPhrase);
         this.searchedPhrase=event.searchedPhrase;
         this.searchMovies(event.searchedPhrase,1);
-        //this.paginatorReset.next();
-        this.buttonsReset.next();
+        this.buttonsReset.next(1);
       }
     })
   }
   
   searchMovies(searchedPhrase, pageNumber){
+    window.scrollTo(0,0);
+    console.log('wutej')
     this.homeService.getMovies(searchedPhrase, pageNumber).subscribe(res=>{
       if(res!=='error'){
         this.movies=res.movies;
@@ -49,9 +47,7 @@ export class HomeComponent implements OnInit {
         this.movies=[];
         this.pageNumber=1;
         this.searchSucces=false;
-        this.paginatorReset.next();
-        this.buttonsReset.next();
-
+        this.numberOfElements=0;
       }    
     })
   }
