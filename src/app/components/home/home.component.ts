@@ -35,9 +35,8 @@ export class HomeComponent implements OnInit {
   
   searchMovies(searchedPhrase, pageNumber){
     window.scrollTo(0,0);
-    console.log('wutej')
-    this.homeService.getMovies(searchedPhrase, pageNumber).subscribe(res=>{
-      if(res!=='error'){
+    this.homeService.getMovies(searchedPhrase, pageNumber).subscribe(res => {
+      if(res!=='error') {
         this.movies=res.movies;
         this.numberOfElements=res.numberOfResults;
         this.searchedPhrase=searchedPhrase;
@@ -52,17 +51,17 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  addMovieToFavourite(movie){
+  addMovieToFavourite(movie) {
     this.homeService.addMovieToFavourites(movie._id).subscribe();
     movie.isFavourite=true;
   }
 
-  removeMovieFromFavourites(movie){
+  removeMovieFromFavourites(movie) {
     this.globalService.removeMovieFromFavourites(movie._id);
     movie.isFavourite=false;
   }
 
-  paginationReload(pageNumber){
+  paginationReload(pageNumber) {
     this.pageNumber=pageNumber;
     this.searchMovies(this.searchedPhrase, pageNumber);
   }

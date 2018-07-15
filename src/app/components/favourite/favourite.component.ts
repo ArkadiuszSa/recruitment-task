@@ -21,7 +21,6 @@ export class FavouriteComponent implements OnInit {
 
   ngOnInit() {
     this.reloadFavouriteMoviesList();
-
     this.globalService.events$.forEach(event =>{
       this.pageNumber=1;
       this.searchedPhrase=event.searchedPhrase;
@@ -32,7 +31,7 @@ export class FavouriteComponent implements OnInit {
 
   removeMovieFromFavourites(movieId){
     if((this.numberOfFavouriteMovies%10)===1){
-      this.pageNumber--;
+      if(this.pageNumber>1) this.pageNumber--;
     }
     this.globalService.removeMovieFromFavourites(movieId);
     this.buttonsReset.next(this.pageNumber);
