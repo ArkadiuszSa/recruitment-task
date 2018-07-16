@@ -1,5 +1,5 @@
 <div class='page-wrapper'>
-<div class='toolbar'>
+<nav class='navbar'>
   <img *ngIf='redirectCondition' class='heart-svg' [routerLink]="['/favourites']" src="./../assets/img/white_heart.svg">
   <img *ngIf='!redirectCondition' class='heart-svg' [routerLink]="['/']" src="./../assets/img/gold_heart.svg">
   <img class='logo-png' src="./../assets/img/logo.png">
@@ -7,7 +7,7 @@
   <button (click)='runSearch()' class='search-button'>
       <img class='search-icon' src="./../assets/img/search_icon.svg">
   </button>
-</div>
+</nav>
 <hr class='break-line'>
 
 <router-outlet></router-outlet>
