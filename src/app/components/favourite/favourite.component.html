@@ -29,9 +29,9 @@
     <div class='paginator-wrapper'>
         <app-paginator
             [numberOfElements]='numberOfFavouriteMovies'
-            [buttonsReset]='buttonsReset'
+            [reloadToPaginator]='reloadToPaginator'
             [elementsOnPage]="10"
-            (pageChange)='paginationReload($event)'
+            (reloadFromPaginator)='reloadFromPaginator($event)'
         ></app-paginator>
     </div>
 </div>

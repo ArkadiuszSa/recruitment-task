@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { GlobalService } from './core/services/global.service';
+import { GlobalService } from './shared/services/global.service';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +39,7 @@ export class AppComponent {
   }
 
   runSearch() {
-    let destination= this.router.url;
-    this.globalService.newEvent( {'searchedPhrase': this.searchedPhrase, 'destination': destination} );
+    //this.globalService.runSearch( {'searchedPhrase': this.searchedPhrase, 'destination': destination} );
+    this.globalService.runSearch( this.searchedPhrase);
   }
 }

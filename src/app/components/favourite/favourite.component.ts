@@ -1,6 +1,8 @@
 import { Component, OnInit,EventEmitter } from '@angular/core';
 import { FavouriteService } from './favourite.service'
-import { GlobalService } from '../../core/services/global.service';
+import { GlobalService } from '../../shared/services/global.service';
+import { FavouriteMovie } from './favourite-movie.model'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-favourite',
@@ -8,51 +10,55 @@ import { GlobalService } from '../../core/services/global.service';
   styleUrls: ['./favourite.component.scss']
 })
 export class FavouriteComponent implements OnInit {
-  public favouriteMovies=[];
-  public numberOfFavouriteMovies;
-  public pageNumber=1;
-  public buttonsReset: EventEmitter<any> = new EventEmitter();
-  public searchedPhrase='';
-  private condition=true;
-
+  public favouriteMovies:Array<FavouriteMovie> = [];
+  public numberOfFavouriteMovies:number;
+  public pageNumber:number = 1;
+  public reloadToPaginator: EventEmitter<any> = new EventEmitter();
+  public searchedPhrase:string = '';
+  private scrollCondition:boolean = true;
+  public searchEventSubs:Subscription;
   constructor(
     private favouriteService: FavouriteService,
     private globalService: GlobalService
   ) {}
 
   ngOnInit() {
-    this.reloadFavouriteMoviesList('scroll');
-    this.globalService.events$.forEach(event =>{
-      this.pageNumber=1;
-      this.searchedPhrase=event.searchedPhrase;
-      this.reloadFavouriteMoviesList('scroll');
-      this.buttonsReset.next([this.pageNumber,this.numberOfFavouriteMovies]);
-   })
+    this.reloadFavouriteMoviesList();
+
+    this.searchEventSubs=this.globalService.searchEvents$.subscribe(searchedPhrase => {
+      this.pageNumber = 1;
+      this.searchedPhrase = searchedPhrase;
+      this.reloadFavouriteMoviesList();
+      this.reloadToPaginator.next([this.pageNumber, this.numberOfFavouriteMovies]);
+    })
+  }
+
+  ngOnDestroy(){
+    this.searchEventSubs.unsubscribe();
   }
 
   removeMovieFromFavourites(movieId){
-    if((this.numberOfFavouriteMovies%10)===1){
-      if(this.pageNumber>1) this.pageNumber--;
+    if((this.numberOfFavouriteMovies %10) === 1){
+      if(this.pageNumber > 1) this.pageNumber--;
     }
-    this.condition=false;
+    this.scrollCondition = false;
     this.globalService.removeMovieFromFavourites(movieId);
-    this.reloadFavouriteMoviesList('jest');
+    this.reloadFavouriteMoviesList();
   }
 
-  reloadFavouriteMoviesList(scrollUp){
-
-    if(this.condition){
-      window.scrollTo(0,0);
+  reloadFavouriteMoviesList() {
+    if(this.scrollCondition){
+      window.scrollTo(0, 0);
     }else{
-      this.condition=true;
+      this.scrollCondition = true;
     }
-    let result=this.favouriteService.getFavouriteMovies(this.pageNumber,this.searchedPhrase);
-    this.favouriteMovies=result.movies;
-    this.numberOfFavouriteMovies=result.numberOfMovies;
-    this.buttonsReset.next([this.pageNumber,this.numberOfFavouriteMovies]);
+    let result = this.favouriteService.getFavouriteMovies(this.pageNumber, this.searchedPhrase);
+    this.favouriteMovies = result.favouriteMovies;
+    this.numberOfFavouriteMovies = result.numberOfMovies;
+    this.reloadToPaginator.next([this.pageNumber, this.numberOfFavouriteMovies]);
     }
-  public paginationReload(pageNumber){
-    this.pageNumber=pageNumber;
-    this.reloadFavouriteMoviesList('scroll');
-  }
+    public reloadFromPaginator(pageNumber){
+      this.pageNumber = pageNumber;
+      this.reloadFavouriteMoviesList();
+    }
 }
