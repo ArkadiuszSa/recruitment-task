@@ -41,6 +41,7 @@ interface FavouriteMovie {
 @Injectable()
 export class HomeService {
   private url:string;
+  public favouriteMovies:Array<FavouriteMovie>;
   constructor(
     private http: HttpClient,
     private globalService: GlobalService
@@ -48,7 +49,7 @@ export class HomeService {
     this.url=environment.apiUrl;
   }
  
-  addMovieToFavourites(movieId:number) {
+  addMovieToFavourites(movieId:string) {
     return this.http.get<FavouriteMovieData>(this.url + '&i=' + movieId).pipe(
       map(movieData => {
         let favouriteMovie:FavouriteMovie = {
@@ -59,13 +60,13 @@ export class HomeService {
           year: movieData.Year
         }
         let favouriteMoviesJson=localStorage.getItem('favouriteMovies');
-        let favouriteMovies:Array<FavouriteMovie>=JSON.parse(favouriteMoviesJson)
-        if(!favouriteMovies){
+       this.favouriteMovies=JSON.parse(favouriteMoviesJson)
+        if(!this.favouriteMovies){
           localStorage.setItem('favouriteMovies', JSON.stringify([favouriteMovie]))
         }else{
-          if(favouriteMovies.indexOf(favouriteMovie)===-1){
-            favouriteMovies.unshift(favouriteMovie)
-            localStorage.setItem('favouriteMovies', JSON.stringify(favouriteMovies))
+          if(this.favouriteMovies.indexOf(favouriteMovie)===-1){
+            this.favouriteMovies.unshift(favouriteMovie)
+            localStorage.setItem('favouriteMovies', JSON.stringify(this.favouriteMovies))
           }
         }
       })
@@ -109,6 +110,8 @@ export class HomeService {
     let result:Array<MovieData>;
     return Observable.forkJoin(firstPage$, secondPage$).pipe(
       map(res=>{
+        console.log(res[0])
+        console.log(res[1])
         if(res[0].Response === 'True' && res[1].Response === 'True') {
           let moviesFromFirstPage:Array<MovieData> = res[0].Search.slice(from%10, 10);
           let moviesFromSecondPage:Array<MovieData> = res[1].Search.slice(0, (from+12) %10 || 10);
@@ -118,6 +121,7 @@ export class HomeService {
         }else{
           return 'error';
         }
+        
         return {'movies':this.transformToMovie(result),'numberOfResults':Number(res[0].totalResults)}
       })
     )

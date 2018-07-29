@@ -5,3 +5,4 @@ export interface FavouriteMovie {
     year: string,
     type: string
 }
+

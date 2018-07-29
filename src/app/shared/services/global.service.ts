@@ -39,11 +39,11 @@ export class GlobalService {
     if(favouriteMoviesJson===null){
       return [];
     }else{
-      return JSON.parse(favouriteMoviesJson)
+      return JSON.parse(favouriteMoviesJson);
     }
   }
 
-  getFavouriteMoviesId(){
+  getFavouriteMoviesId() {
     let favouriteMoviesJson=localStorage.getItem('favouriteMovies');
     let favouriteMovies= JSON.parse(favouriteMoviesJson)
     let favouriteMoviesId=[];
@@ -54,7 +54,7 @@ export class GlobalService {
       for( let favouriteMovie of favouriteMovies){
         favouriteMoviesId.push(favouriteMovie._id)
       }
-      return favouriteMoviesId
+      return favouriteMoviesId;
     }
   }
 }
